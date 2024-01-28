@@ -1,0 +1,55 @@
+<section style="background-color: #eee ; height: 100vh; padding: 25px 0px; overflow-y: scroll;">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">Chat User Story</div>
+      <div class="card-body chat-messages">
+        <div *ngFor="let message of chatMessages.reverse()" class="mb-2">
+          <div *ngIf="message.type === 'You'" class="my-message"><strong>{{ message.type }}: </strong>{{ message.content }}</div>
+          <div *ngIf="message.type === 'Server'" class="other-message">
+            <strong>{{ message.type }}: </strong>
+            <div *ngIf="message.codeSnippets && message.codeSnippets.length > 0">
+              <div *ngFor="let code of message.codeSnippets ; let i = index">
+                <div class="card">
+                  <div class="card-body">
+                    <app-code-snippet [codeSnippet]="code" [fileName]="'code_snippet_' + i"></app-code-snippet>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!message.codeSnippets || message.codeSnippets.length === 0">{{ message.content }}</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="loading" class="text-center mt-3">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
+      <div class="card-footer chat-input">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="userType">As a :</label>
+              <input id="userType" class="form-control" [(ngModel)]="userType" placeholder="Enter User Type" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="userRequest">I want to:</label>
+              <textarea id="userRequest" [(ngModel)]="userRequest" placeholder="Type what you want..." class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="additionalContextOrGoal">So that:</label>
+          <textarea id="additionalContextOrGoal" [(ngModel)]="additionalContextOrGoal" placeholder="Provide relevant context or goal here..." class="form-control" rows="3"></textarea>
+        </div>
+
+        <button (click)="sendPrompt()" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
