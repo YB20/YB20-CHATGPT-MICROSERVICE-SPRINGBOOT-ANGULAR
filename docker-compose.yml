@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+
+  Eureka-server:
+    image: barhdadiyoussef4052/eurekaserver:latest
+    container_name: Eurekaserver
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+
+  ServiceGateway:
+    image: barhdadiyoussef4052/servicegateway:latest
+    container_name: ServiceGateway
+    ports:
+      - "9999:9999"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+
+  ConfigService:
+    image: barhdadiyoussef4052/configservice:latest
+    container_name: ConfigService
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+
+  Userservice:
+    image: barhdadiyoussef4052/userservice:latest
+    container_name: Userservice
+    ports:
+      - "9192:9192"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+
+networks:
+  spring:
+    driver: bridge
